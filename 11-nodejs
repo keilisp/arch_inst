@@ -1,4 +1,4 @@
-#!/usr/bin/env
+#!/usr/bin/env bash
 
 # Setup nodejs
 echo "Installing nodejs npm and yarn"
