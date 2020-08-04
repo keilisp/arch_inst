@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Setup nerd-fonts
+echo "Installing nerd-fonts"
+cd trsh && git clone https://github.com/ryanoasis/nerd-fonts && cd nerd-fonts && ./install.sh && cd

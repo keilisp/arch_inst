@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Setup scripts
+echo "Cloning scripts from github"
+git clone https://github.com/mediocreeee/scripts
+sudo ln -s ~/scripts/dmenuunicode /usr/bin/
+sudo ln -s ~/scripts/docread /usr/bin/
+sudo ln -s ~/scripts/mansplain /usr/bin/

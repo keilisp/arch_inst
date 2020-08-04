@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Setup (neo) vim
+echo "Installing xclip"
+sudo pacman -S --noconfirm xclip
+echo "Installing vundle"
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+echo "Installing pynvim"
+python3 -m pip install --user --upgrade pynvim
+echo "Installing neovim"
+sudo npm install -g neovim

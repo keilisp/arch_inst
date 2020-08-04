@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+read -r -p "Choose platform:
+1. PC
+2. LAPTOP
+
+" PLATFORM
+
+case $PLATFORM in
+1)
+	export PLATFORM="PC"
+	export CLONE_DOTFILES="git clone https://github.com/mediocreeee/dotfiles"
+	;;
+2)
+	export PLATFORM="LAPTOP"
+	export CLONE_DOTFILES="git clone https://github.com/mediocreeee/dotfiles --branch laptop --single-branch"
+	;;
+*)
+	echo "Please select platform correctly"
+	exit 1
+	;;
+esac

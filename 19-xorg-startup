@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+source ./00-platform
+
+echo "Setting xinitrc.d startup"
+if [ "$PLATFORM" = "PC" ]; then
+	cat <<EOF | sudo tee /etc/X11/xinit/xinitrc.d/startup.sh
+	#xinput --set-prop 'SINOWEALTH Wired Gaming Mouse' 'libinput Accel Speed' -0.8
+	#setxkbmap -layout 'us,ru' -option grp:caps_toggle
+	xrandr --output DVI-D-0 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-0 --off --output DP-1 --off
+	xset r rate 300 50
+EOF
+
+else
+	cat <<EOF | sudo tee /etc/X11/xinit/xinitrc.d/startup.sh
+	#xinput --set-prop 'SINOWEALTH Wired Gaming Mouse' 'libinput Accel Speed' -0.8
+	#setxkbmap -layout 'us,ru' -option grp:caps_toggle
+	#xrandr --output DVI-D-0 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-0 --off --output DP-1 --off
+	xset r rate 300 50
+EOF
+fi
+echo "chmoding the xinitrc.d/startup.sh"
+sudo chmod +x /etc/X11/xinit/xinitrc.d/startup.sh

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Network config
+echo "Setup dhcpcd"
+systemctl enable dhcpcd && systemctl start dhcpcd
+echo "Updating system with pacman"
+pacman -Syyuu
