@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Setup (doom) emacs
+echo "Installing emacs"
+yay -S --noconfirm --answerdiff=None emacs27-git || yay -S --noconfirm --answerdiff=None emacs
+echo "Deleting existing emacs.d"
+rm -rf ~/.emacs.d
+echo "Clining doom emacs"
+git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+echo "Installing doom emacs"
+yes | ~/.emacs.d/bin/doom install
+echo "Syncing doom emacs"
+~/.emacs.d/bin/doom sync

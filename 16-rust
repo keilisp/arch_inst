@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Setup rust env
+echo "Installing rustup"
+yay -S --noconfirm --answerdiff=None rustup
+echo "Installing rustup"
+rustup install stable
+echo "Installing nightly"
+rustup install nightly-2020-07-27
+echo "Make nightly default toolchain"
+rustup default nightly
+echo "Updating rustup"
+rustup update
+echo "Installing clippy"
+rustup component add clippy
+echo "Installing rls"
+rustup component add rls rust-analysis rust-src

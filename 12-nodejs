@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Setup nodejs
+echo "Installing nodejs npm and yarn"
+sudo pacman -S --noconfirm nodejs npm yarn

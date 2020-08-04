@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Setup st and dmenu
+echo "Installing packages for st and dmenu"
+yay -S --answerdiff=None libxft libx11 libxft-bgra fontconfig ttf-monaco
+
+echo "Compiling st"
+cd progs && cd st && sudo make install
+echo "Compiling dmenu"
+cd ../dmenu && make && sudo make install && cd
