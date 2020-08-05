@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-# Setup yay
-echo "Setuping yay"
-cd progs && git clone https://aur.archlinux.org/yay.git && cd yay && yes | makepkg -si && cd
-echo "Updating system with yay"
-yay --answerdiff=None --noconfirm -Syyuu

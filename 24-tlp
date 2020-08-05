@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-source ./00-platform
-
-# TLP (for laptop)
-if [ $PLATFORM = "LAPTOP" ]; then
-	sudo pacman -S tlp && sudo systemctl enable tlp.service
-fi

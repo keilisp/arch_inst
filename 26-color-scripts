@@ -10,5 +10,5 @@ if [ "$PLATFORM" = "PC" ]; then
 	sudo mkdir -p /opt/shell-color-scripts/colorscripts || return 1
 	sudo cp -rf colorscripts/* /opt/shell-color-scripts/colorscripts
 	sudo cp colorscript.sh /opt/shell-color-scripts/
-	cd
+	cd ~
 fi

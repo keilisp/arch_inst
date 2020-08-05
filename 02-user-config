@@ -6,9 +6,11 @@ pacman -S --noconfirm sudo
 
 # Configuring user
 source ./00-user
+source ./00-platform
+
 read -r -p "Enter password for user $USER: " PASSWD
 echo "Adding $USER"
-useradd -m "$USER" -p "$PASSWD"
+useradd -m "$USER" -p $PASSWD
 echo "Adding groups to $USER"
 usermod -aG wheel,audio,video,optical,storage "$USER"
 echo "Changing sudoers"
@@ -16,3 +18,4 @@ sed --in-place 's/^#\s*\(%wheel\s\+ALL=(ALL)\s\+ALL\)/\1/' /etc/sudoers
 sed --in-place 's/^#\s*\(%wheel\s\+ALL=(ALL)\s\+NOPASSWD:\s\+ALL\)/\1/' /etc/sudoers
 echo "Changing user to $USER"
 su - "$USER"
+git clone https://github.com/mediocreeee/arch_inst && cd arch_inst

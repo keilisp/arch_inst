@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# Other stuff
-echo "Installing stuff"
-yay -S --noconfirm --answerdiff=None exa etcher-bin cordless-git tg

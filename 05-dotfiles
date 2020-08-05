@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+source ./00-platform
+
 # Setup dotfiles
 echo "Setup dotfiles from github"
-mkdir trsh && cd trsh && $CLONE_DOTFILES && cp -a dotfiles/. ~ && cd
+mkdir trsh
+cd trsh && $CLONE_DOTFILES && cp -a dotfiles/. ~
+cd

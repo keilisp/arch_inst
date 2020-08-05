@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-# GTK Themes
-git clone https://github.com/4rtzel/Gruvbox-Dark-Yellow ~/.themes/Gruvbox-Dark-Yellow
-# Breeze cursor
-yay -S --noconfirm --answerdiff=None breeze-snow-cursor-theme

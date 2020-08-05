@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-# Enhanced discord
-git clone https://github.com/Cr3atable/LinuxED ~/progs/LinuxED

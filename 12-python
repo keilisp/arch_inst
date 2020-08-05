@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# Setup python
-echo "Installing python3 and pip"
-sudo pacman -S --noconfirm python3 python-pip

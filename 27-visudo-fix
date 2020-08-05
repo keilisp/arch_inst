@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Comment out line in sudoers to ask password for sudo
+echo "Fixing sudors file"
+sed --in-place 's/^\s*\(%wheel\s\+ALL=(ALL)\s\+NOPASSWD:\s\+ALL\)/# %wheel ALL=\(ALL\) NOPASSWD: ALL/' /etc/sudoers
