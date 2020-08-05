@@ -18,4 +18,4 @@ sed --in-place 's/^#\s*\(%wheel\s\+ALL=(ALL)\s\+ALL\)/\1/' /etc/sudoers
 sed --in-place 's/^#\s*\(%wheel\s\+ALL=(ALL)\s\+NOPASSWD:\s\+ALL\)/\1/' /etc/sudoers
 echo "Changing user to $USER"
 su - "$USER"
-git clone https://github.com/mediocreeee/arch_inst && cd arch_inst
+git clone https://github.com/mediocreeee/arch_inst
