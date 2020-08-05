@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ./00-platform
+source ~/arch_inst/00-platform
 
 # Setup dotfiles
 echo "Setup dotfiles from github"

@@ -5,8 +5,8 @@ echo "Installing sudo and git"
 pacman -S --noconfirm sudo
 
 # Configuring user
-source ./00-user
-source ./00-platform
+source ~/arch_inst/00-user
+source ~/arch_inst/00-platform
 
 read -r -p "Enter password for user $USER: " PASSWD
 echo "Adding $USER"

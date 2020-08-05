@@ -44,7 +44,7 @@ sed --in-place 's/^#\s*\(%wheel\s\+ALL=(ALL)\s\+NOPASSWD:\s\+ALL\)/\1/' /etc/sud
 echo "Changing user to $USER"
 # Cloning arch_inst to $USER
 echo "Cloning arch_inst to $USER"
-git clone https://github.com/mediocreeee/arch_inst && cd arch_inst
+git clone https://github.com/mediocreeee/arch_inst
 #Changing user
 su - "$USER"
 
