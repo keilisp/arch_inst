@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Install oh-my-zsh
+cd ~
 echo "Removing existing oh-my-zsh"
 rm -rf ~/.oh-my-zsh
 echo "Installing oh-my-zsh"

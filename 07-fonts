@@ -2,5 +2,6 @@
 
 # Setup nerd-fonts
 echo "Installing nerd-fonts"
-cd trsh && git clone https://github.com/ryanoasis/nerd-fonts && cd nerd-fonts && ./install.sh
+sudo pacman -S --noconfirm ttf-joypixels ttf-font-awesome
 cd ~
+cd ~/trsh && git clone https://github.com/ryanoasis/nerd-fonts && cd nerd-fonts && ./install.sh

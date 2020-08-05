@@ -10,7 +10,8 @@ source ~/arch_inst/00-platform
 
 read -r -p "Enter password for user $USER: " PASSWD
 echo "Adding $USER"
-useradd -m "$USER" -p $PASSWD
+useradd -m $USER
+passwd $USER
 echo "Adding groups to $USER"
 usermod -aG wheel,audio,video,optical,storage "$USER"
 echo "Changing sudoers"

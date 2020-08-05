@@ -4,10 +4,10 @@
 echo "Installing loads of packages"
 sudo pacman -S --noconfirm base-devel xorg awesome neovim compton flameshot firefox ranger newsboat \
 	discord telegram-desktop termite transmission-gtk alsa alsa-utils pulseaudio feh mpv \
-	ripgrep neofetch youtube-dl chafa w3m fzf the_silver_searcher lxappearance bat ncdu ttf-joypixels \
+	ripgrep neofetch youtube-dl chafa w3m fzf the_silver_searcher lxappearance bat ncdu \
 	mpd mpc ncmpcpp networkmanager network-manager-applet blueberry unclutter pavucontrol \
 	zathura zathura-djvu zathura-pdf-mupdf zathura-cb libreoffice-still thunar tumbler arandr \
-	zsh openssh lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings ttf-font-awesome \
+	zsh openssh lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings \
 	grub-customizer cronie devmon
 
 echo "Enabling lightdm"

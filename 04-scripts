@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Setup scripts
+cd ~
 echo "Cloning scripts from github"
 git clone https://github.com/mediocreeee/scripts
 sudo ln -s ~/scripts/dmenuunicode /usr/bin/

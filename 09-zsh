@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Setup zsh
+cd ~
 echo "Removing existing .zshrc"
 rm -rf ~/.zshrc
 echo "Copying .zshrc from dotfiles"

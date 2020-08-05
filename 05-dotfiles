@@ -3,7 +3,7 @@
 source ~/arch_inst/00-platform
 
 # Setup dotfiles
+cd ~
 echo "Setup dotfiles from github"
-mkdir trsh
+mkdir ~/trsh
 cd trsh && $CLONE_DOTFILES && cp -a dotfiles/. ~
-cd
