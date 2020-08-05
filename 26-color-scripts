@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ./00-platform
+source ~/arch_inst/00-platform
 
 # shell-color-scripts
 cd ~

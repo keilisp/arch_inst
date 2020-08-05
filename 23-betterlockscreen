@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-source ~/arch_inst/00-user
+USER=$(whoami)
+
 # Betterlockscreen
 echo "Installing betterlockscreen"
 yay -S --noconfirm --answerdiff=None betterlockscreen

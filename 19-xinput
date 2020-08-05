@@ -3,9 +3,9 @@
 echo "Setting xinput"
 sudo cat <<EOF | sudo tee /etc/X11/xorg.conf.d/99-libinput-mouse.conf
 Section "InputClass"
-  Identifier "My config"
-  MatchDriver "libinput"
-  MatchProduct "SINOWEALTH Wired Gaming Mouse"
-  Option "AccelSpeed" "-0.8"
+Identifier "My config"
+MatchDriver "libinput"
+MatchProduct "SINOWEALTH Wired Gaming Mouse"
+Option "AccelSpeed" "-0.8"
 EndSection
 EOF
