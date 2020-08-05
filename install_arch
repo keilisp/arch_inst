@@ -42,11 +42,11 @@ echo "Changing sudoers"
 sed --in-place 's/^#\s*\(%wheel\s\+ALL=(ALL)\s\+ALL\)/\1/' /etc/sudoers
 sed --in-place 's/^#\s*\(%wheel\s\+ALL=(ALL)\s\+NOPASSWD:\s\+ALL\)/\1/' /etc/sudoers
 echo "Changing user to $USER"
-su - "$USER"
-
 # Cloning arch_inst to $USER
 echo "Cloning arch_inst to $USER"
 git clone https://github.com/mediocreeee/arch_inst && cd arch_inst
+#Changing user
+su - "$USER"
 
 # Installing base packages
 echo "Installing loads of packages"
