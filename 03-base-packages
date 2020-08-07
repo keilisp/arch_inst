@@ -8,7 +8,7 @@ sudo pacman -S --noconfirm base-devel xorg awesome neovim compton flameshot fire
 	mpd mpc ncmpcpp networkmanager network-manager-applet blueberry unclutter pavucontrol \
 	zathura zathura-djvu zathura-pdf-mupdf zathura-cb libreoffice-still thunar tumbler arandr \
 	zsh openssh lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings \
-	grub-customizer cronie devmon texlive-most texlive-lang jq
+	grub-customizer cronie devmon texlive-most texlive-lang jq tldr
 
 echo "Enabling lightdm"
 sudo systemctl enable lightdm
