@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 USER="mediocreeee"
-
+cd ~
 mkdir ~/code
 cd ~/code
 

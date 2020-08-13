@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+cd ~
+mkdir ~/pix
+cd ~/pix
+
+git clone https://github.com/mediocreeee/wallpapers
