@@ -3,3 +3,7 @@
 # Comment out line in sudoers to ask password for sudo
 echo "Fixing sudors file"
 sudo sed --in-place 's/^\s*\(%wheel\s\+ALL=(ALL)\s\+NOPASSWD:\s\+ALL\)/# %wheel ALL=\(ALL\) NOPASSWD: ALL/' /etc/sudoers
+
+# Delete arch_inst folder from /root
+echo "Deleting arch_inst folder from /root..."
+sudo rm -rf /root/arch_inst

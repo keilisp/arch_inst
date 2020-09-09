@@ -1,0 +1,402 @@
+#!/usr/bin/env bash
+
+# USER
+USER=$(whoami)
+
+# 03
+# Installing base packages
+echo "Installing loads of packages"
+sudo pacman -S --noconfirm base-devel xorg awesome neovim compton flameshot firefox ranger newsboat \
+	discord telegram-desktop termite transmission-gtk alsa alsa-utils pulseaudio feh mpv \
+	ripgrep neofetch youtube-dl chafa w3m fzf the_silver_searcher lxappearance bat ncdu \
+	mpd mpc ncmpcpp networkmanager network-manager-applet blueberry unclutter pavucontrol wget \
+	zathura zathura-djvu zathura-pdf-mupdf zathura-cb libreoffice-still thunar tumbler arandr \
+	zsh openssh lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings ueberzug fd \
+	grub-customizer cronie devmon texlive-most texlive-lang jq tldr shellcheck shfmt bc gksu
+
+# Configuring base services
+echo "Enabling lightdm"
+sudo systemctl enable lightdm
+echo "Enabling sshd"
+sudo systemctl enable sshd
+echo "Enabling NetworkManager"
+sudo systemctl enable NetworkManager
+echo "Enabling cronie"
+sudo systemctl enable cronie
+
+# 04
+# Setup scripts
+cd ~
+echo "Cloning scripts from github"
+git clone https://github.com/mediocreeee/scripts
+sudo ln -s ~/scripts/dmenuunicode /usr/bin/
+sudo ln -s ~/scripts/docread /usr/bin/
+sudo ln -s ~/scripts/mansplain /usr/bin/
+
+# 05
+# Getting platfrom
+read -r -p "Choose platform:
+1. PC
+2. LAPTOP
+
+" PLATFORM
+
+case $PLATFORM in
+1)
+	export PLATFORM="PC"
+	export CLONE_DOTFILES="git clone https://github.com/mediocreeee/dotfiles"
+	;;
+2)
+	export PLATFORM="LAPTOP"
+	export CLONE_DOTFILES="git clone https://github.com/mediocreeee/dotfiles --branch laptop --single-branch"
+	;;
+*)
+	echo "Please select platform correctly"
+	exit 1
+	;;
+esac
+
+# Setup dotfiles
+cd ~
+echo "Setup dotfiles from github"
+mkdir ~/trsh
+cd trsh && $CLONE_DOTFILES && cp -a dotfiles/. ~
+
+# 06
+# Setup awesomewm
+echo "Cloning modalbind from github"
+cd ~/.config/awesome && git clone https://github.com/crater2150/awesome-modalbind.git && mv awesome-modalbind/* modalbind
+
+# 07
+# Setup nerd-fonts
+echo "Installing nerd-fonts"
+sudo pacman -S --noconfirm ttf-joypixels ttf-font-awesome
+cd ~
+cd ~/trsh && git clone https://github.com/ryanoasis/nerd-fonts && cd nerd-fonts && ./install.sh
+
+# 08
+# Install oh-my-zsh
+cd ~
+echo "Removing existing oh-my-zsh"
+rm -rf ~/.oh-my-zsh
+echo "Installing oh-my-zsh"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# 09
+# Setup zsh
+cd ~
+echo "Removing existing .zshrc"
+rm -rf ~/.zshrc
+echo "Copying .zshrc from dotfiles"
+cp -r ~/trsh/dotfiles/.zshrc ~
+echo "zsh-syntax-highlighting"
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/plugins/zsh-syntax-highlighting
+echo "zsh-autosuggestions"
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/plugins/zsh-autosuggestions
+echo "abbrev-alias"
+git clone https://github.com/momo-lab/zsh-abbrev-alias ~/.oh-my-zsh/plugins/abbrev-alias
+echo "oxide theme"
+cat <<EOF >~/.oh-my-zsh/themes/oxide.zsh-theme
+# Oxide theme for Zsh
+#
+# Author: Diki Ananta <diki1aap@gmail.com>
+# Repository: https://github.com/dikiaap/dotfiles
+# License: MIT
+
+# Prompt:
+# %F => Color codes
+# %f => Reset color
+# %~ => Current path
+# %(x.true.false) => Specifies a ternary expression
+#   ! => True if the shell is running with root privileges
+#   ? => True if the exit status of the last command was success
+#
+# Git:
+# %a => Current action (rebase/merge)
+#
+# Terminal:
+# \n => Newline/Line Feed (LF)
+
+setopt PROMPT_SUBST
+
+autoload -U add-zsh-hook
+autoload -Uz vcs_info
+
+# Use True color (24-bit) if available.
+if [[ "${terminfo[colors]}" -ge 256 ]]; then
+oxide_turquoise="%F{73}"
+oxide_orange="%F{179}"
+oxide_red="%F{167}"
+oxide_limegreen="%F{107}"
+else
+oxide_turquoise="%F{cyan}"
+oxide_orange="%F{yellow}"
+oxide_red="%F{red}"
+oxide_limegreen="%F{green}"
+fi
+
+# Reset color.
+oxide_reset_color="%f"
+
+# VCS style formats.
+FMT_UNSTAGED="%{$oxide_reset_color%} %{$oxide_orange%}●"
+FMT_STAGED="%{$oxide_reset_color%} %{$oxide_limegreen%} ✚ "
+FMT_ACTION="(%{$oxide_limegreen%}%a%{$oxide_reset_color%})"
+FMT_VCS_STATUS="%{$oxide_turquoise%} %b%u%c%{$oxide_reset_color%}"
+
+zstyle ':vcs_info:*' enable git svn
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' unstagedstr    "${FMT_UNSTAGED}"
+zstyle ':vcs_info:*' stagedstr      "${FMT_STAGED}"
+zstyle ':vcs_info:*' actionformats  "${FMT_VCS_STATUS} ${FMT_ACTION}"
+zstyle ':vcs_info:*' formats        "${FMT_VCS_STATUS}"
+zstyle ':vcs_info:*' nvcsformats    ""
+zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
+
+# Check for untracked files.
++vi-git-untracked() {
+  if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == 'true' ]] && \
+        git status --porcelain | grep --max-count=1 '^??' &> /dev/null; then
+          hook_com[staged]+="%{$oxide_reset_color%} %{$oxide_red%}●"
+          fi
+}
+
+# Executed before each prompt.
+add-zsh-hook precmd vcs_info
+
+# Oxide prompt style.
+PROMPT=$'\n%{$oxide_limegreen%}%~%{$oxide_reset_color%} ${vcs_info_msg_0_}\n%(?.%{%F{white}%}.%{$oxide_red%})%(!.#.❯)%{$oxide_reset_color%} '
+
+EOF
+
+# 10
+# Setup yay
+cd ~
+echo "Setuping yay"
+cd ~/progs && git clone https://aur.archlinux.org/yay.git && cd yay && yes | makepkg -si
+echo "Updating system with yay"
+yay --answerdiff=None --noconfirm -Syyuu
+
+# 11
+# Setup st and dmenu
+cd ~
+echo "Installing packages for st and dmenu"
+yay -S --answerdiff=None libxft libx11 libxft-bgra fontconfig ttf-monaco
+
+echo "Compiling st"
+cd ~/progs && cd st && sudo make install
+echo "Compiling dmenu"
+cd ../dmenu && make && sudo make install
+
+# 12
+# Setup nodejs
+echo "Installing nodejs npm and yarn"
+sudo pacman -S --noconfirm nodejs npm yarn
+
+# 13
+# Setup python
+echo "Installing python3 and pip"
+sudo pacman -S --noconfirm python3 python-pip
+
+# 14
+# Setup (neo) vim
+echo "Installing xclip"
+sudo pacman -S --noconfirm xclip
+echo "Installing vundle"
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+echo "Installing pynvim"
+python3 -m pip install --user --upgrade pynvim
+echo "Installing neovim"
+sudo npm install -g neovim
+
+# 15
+# Setup (doom) emacs
+echo "Installing emacs"
+yay -S --noconfirm --answerdiff=None emacs27-git || yay -S --noconfirm --answerdiff=None emacs
+echo "Deleting existing emacs.d"
+rm -rf ~/.emacs.d
+echo "Clining doom emacs"
+git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+echo "Installing doom emacs"
+yes | ~/.emacs.d/bin/doom install
+echo "Syncing doom emacs"
+~/.emacs.d/bin/doom sync
+
+# 16
+# Setup rust env
+echo "Installing rustup"
+yay -S --noconfirm --answerdiff=None rustup
+echo "Installing rustup"
+rustup install stable
+echo "Installing nightly"
+rustup install nightly-2020-07-27
+echo "Make nightly default toolchain"
+rustup default nightly
+echo "Updating rustup"
+rustup update
+echo "Installing clippy"
+rustup component add clippy
+echo "Installing rls"
+rustup component add rls rust-analysis rust-src
+
+# 17
+# Other stuff
+echo "Installing stuff"
+yay -S --noconfirm --answerdiff=None exa etcher-bin cordless-git tg
+
+# 18
+# Setup setxkbmap xinput and xorg startup
+echo "Setting setxkbmap"
+sudo cat <<EOF | sudo tee /etc/X11/xorg.conf.d/00-keyboard.conf
+# Written by systemd-localed(8), read by systemd-localed and Xorg. It's
+# probably wise not to edit this file manually. Use localectl(1) to
+# instruct systemd-localed to update it.
+Section "InputClass"
+        Identifier "system-keyboard"
+        MatchIsKeyboard "on"
+        Option "XkbLayout" "us,ru,ua"
+        Option "XkbModel" "pc104"
+        Option "XkbVariant" "qwerty"
+        Option "XkbOptions" "grp:caps_toggle"
+EndSection
+EOF
+
+# 19
+echo "Setting xinput..."
+case $PLATFORM in
+"PC")
+	sudo cat <<EOF | sudo tee /etc/X11/xorg.conf.d/99-libinput.conf
+Section "InputClass"
+  Identifier "My config"
+  MatchDriver "libinput"
+  MatchProduct "SINOWEALTH Wired Gaming Mouse"
+  Option "AccelSpeed" "-0.8"
+EndSection
+EOF
+	;;
+
+"LAPTOP")
+	sudo cat <<EOF | sudo tee /etc/X11/xorg.conf.d/99-libinput.conf
+Section "InputClass"
+  Identifier "My trackpoint config"
+  MatchDriver "libinput"
+  MatchProduct "TPPS/2 IBM TrackPoint"
+  Option "AccelSpeed" "-0.8"
+EndSection
+EOF
+	;;
+esac
+
+# 20
+echo "Setting xinitrc.d startup"
+if [ "$PLATFORM" = "PC" ]; then
+	cat <<EOF | sudo tee /etc/X11/xinit/xinitrc.d/startup.sh
+	#xinput --set-prop 'SINOWEALTH Wired Gaming Mouse' 'libinput Accel Speed' -0.8
+	#setxkbmap -layout 'us,ru' -option grp:caps_toggle
+	xrandr --output DVI-D-0 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-0 --off --output DP-1 --off
+	xset r rate 300 50
+EOF
+
+else
+	cat <<EOF | sudo tee /etc/X11/xinit/xinitrc.d/startup.sh
+	#xinput --set-prop 'SINOWEALTH Wired Gaming Mouse' 'libinput Accel Speed' -0.8
+	#setxkbmap -layout 'us,ru' -option grp:caps_toggle
+	#xrandr --output DVI-D-0 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-0 --off --output DP-1 --off
+	xset r rate 300 50
+EOF
+fi
+echo "chmoding the xinitrc.d/startup.sh"
+sudo chmod +x /etc/X11/xinit/xinitrc.d/startup.sh
+
+# 21
+# Setup startup scripts
+if [ "$PLATFORM" = "PC" ]; then
+	echo "/home/$USER/scripts/redditWall/redditwall -s Animewallpaper -d -t day -p new -l 100 -mw 1920 -mh 1080 &" >>~/.xprofile
+	echo "/home/$USER/scripts/nodeVids/watchvids &"
+fi
+
+# 22
+# GTK Themes
+git clone https://github.com/4rtzel/Gruvbox-Dark-Yellow ~/.themes/Gruvbox-Dark-Yellow
+sudo pacman -S --noconfirm arc-gtk-theme
+# Breeze cursor
+yay -S --noconfirm --answerdiff=None breeze-snow-cursor-theme
+
+# 23
+# Betterlockscreen
+echo "Installing betterlockscreen"
+yay -S --noconfirm --answerdiff=None betterlockscreen
+cat <<EOF | sudo tee /etc/systemd/system/betterlockscreen@.service
+[Unit]
+Description = Lock screen when going to sleep/suspend
+Before=sleep.target
+Before=suspend.target
+
+[Service]
+User=%I
+Type=simple
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/betterlockscreen --lock
+TimeoutSec=infinity
+ExecStartPost=/usr/bin/sleep 1
+
+[Install]
+WantedBy=sleep.target
+WantedBy=suspend.target
+EOF
+
+echo "Enabling betterlockscreen"
+sudo systemctl enable betterlockscreen@$USER
+
+# 24
+# Enhanced discord
+git clone https://github.com/Cr3atable/LinuxED ~/progs/LinuxED
+
+# 25
+# TLP (for laptop)
+if [ $PLATFORM = "LAPTOP" ]; then
+	sudo pacman -S --noconfirm tlp && sudo systemctl enable tlp.service
+fi
+
+# 26
+# shell-color-scripts
+cd ~
+if [ "$PLATFORM" = "PC" ]; then
+	cd ~/trsh && git clone https://gitlab.com/dwt1/shell-color-scripts.git
+	cd shell-color-scripts
+	sudo rm -rf /opt/shell-color-scripts || return 1
+	sudo mkdir -p /opt/shell-color-scripts/colorscripts || return 1
+	sudo cp -rf colorscripts/* /opt/shell-color-scripts/colorscripts
+	sudo cp colorscript.sh /opt/shell-color-scripts/
+fi
+
+# 27
+# Comment out line in sudoers to ask password for sudo
+echo "Fixing sudors file"
+sudo sed --in-place 's/^\s*\(%wheel\s\+ALL=(ALL)\s\+NOPASSWD:\s\+ALL\)/# %wheel ALL=\(ALL\) NOPASSWD: ALL/' /etc/sudoers
+
+# Delete arch_inst folder from /root
+echo "Deleting arch_inst folder from /root..."
+sudo rm -rf /root/arch_inst
+
+# 28
+GIT_USER="mediocreeee"
+cd ~
+mkdir ~/code
+cd ~/code
+
+REPOS=$(curl https://api.github.com/users/"$GIT_USER"/repos |
+	jq 'map(.full_name)' | grep -v '\[\|\]' | tr -d \" | tr -d ,)
+
+for repo in $REPOS; do
+	git clone https://github.com/"$repo"
+done
+
+# 29
+cd ~
+mkdir ~/pix
+cd ~/pix
+
+git clone https://github.com/mediocreeee/wallpapers
+
+echo "Finishing up..."

@@ -5,6 +5,6 @@ USER=$(whoami)
 
 # Setup startup scripts
 if [ "$PLATFORM" = "PC" ]; then
-	echo "/home/$USER/scripts/nodeRedditDownloader/wallpaperDownloader -s Animewallpaper -d -t day -p new -l 100 -mw 1920 -mh 1080 &" >>~/.xprofile
-	echo "/home/$USER/scripts/watchvids/watchvids &"
+	echo "/home/$USER/scripts/redditWall/redditwall -s Animewallpaper -d -t day -p new -l 100 -mw 1920 -mh 1080 &" >>~/.xprofile
+	echo "/home/$USER/scripts/nodeVids/watchvids &"
 fi

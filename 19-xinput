@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-echo "Setting xinput"
-sudo cat <<EOF | sudo tee /etc/X11/xorg.conf.d/99-libinput-mouse.conf
+source ~/arch_inst/00-platform
+
+echo "Setting xinput..."
+case $PLATFORM in
+"PC")
+	sudo cat <<EOF | sudo tee /etc/X11/xorg.conf.d/99-libinput.conf
 Section "InputClass"
   Identifier "My config"
   MatchDriver "libinput"
@@ -9,3 +13,16 @@ Section "InputClass"
   Option "AccelSpeed" "-0.8"
 EndSection
 EOF
+	;;
+
+"LAPTOP")
+	sudo cat <<EOF | sudo tee /etc/X11/xorg.conf.d/99-libinput.conf
+Section "InputClass"
+  Identifier "My trackpoint config"
+  MatchDriver "libinput"
+  MatchProduct "TPPS/2 IBM TrackPoint"
+  Option "AccelSpeed" "-0.8"
+EndSection
+EOF
+	;;
+esac

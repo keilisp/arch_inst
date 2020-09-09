@@ -1,11 +1,19 @@
 #!/usr/bin/env bash
 
+# 01
+# Network config
+echo "Setup dhcpcd"
+systemctl enable dhcpcd && systemctl start dhcpcd
+echo "Updating system with pacman"
+pacman -Syyuu
+
+# 02
 # Required packages
 echo "Installing sudo and git"
 pacman -S --noconfirm sudo
 
 # Configuring user
-source ~/arch_inst/00-user
+read -r -p "Enter username: " USER
 
 echo "Adding $USER"
 useradd -m $USER
