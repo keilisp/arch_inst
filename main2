@@ -12,7 +12,8 @@ sudo pacman -S --noconfirm base-devel xorg awesome neovim compton flameshot fire
 	mpd mpc ncmpcpp networkmanager network-manager-applet blueberry unclutter pavucontrol wget \
 	zathura zathura-djvu zathura-pdf-mupdf zathura-cb libreoffice-still thunar tumbler arandr \
 	zsh openssh lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings ueberzug fd \
-	grub-customizer cronie devmon texlive-most texlive-lang jq tldr shellcheck shfmt bc gksu
+	grub-customizer cronie devmon texlive-most texlive-lang jq tldr shellcheck shfmt bc gksu \
+	gdb alacritty valgrind rsync
 
 # Configuring base services
 echo "Enabling lightdm"
@@ -242,7 +243,7 @@ rustup component add rls rust-analysis rust-src
 # 17
 # Other stuff
 echo "Installing stuff"
-yay -S --noconfirm --answerdiff=None exa etcher-bin cordless-git tg
+yay -S --noconfirm --answerdiff=None exa etcher-bin cordless-git tg flavours gef
 
 # 18
 # Setup setxkbmap xinput and xorg startup
@@ -265,7 +266,7 @@ EOF
 echo "Setting xinput..."
 case $PLATFORM in
 "PC")
-	sudo cat <<EOF | sudo tee /etc/X11/xorg.conf.d/99-libinput.conf
+	sudo cat <<EOF | sudo tee /etc/X11/xorg.conf.d/01-libinput.conf
 Section "InputClass"
   Identifier "My config"
   MatchDriver "libinput"
@@ -276,7 +277,7 @@ EOF
 	;;
 
 "LAPTOP")
-	sudo cat <<EOF | sudo tee /etc/X11/xorg.conf.d/99-libinput.conf
+	sudo cat <<EOF | sudo tee /etc/X11/xorg.conf.d/01-libinput.conf
 Section "InputClass"
   Identifier "My trackpoint config"
   MatchDriver "libinput"

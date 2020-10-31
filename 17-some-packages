@@ -2,4 +2,4 @@
 
 # Other stuff
 echo "Installing stuff"
-yay -S --noconfirm --answerdiff=None exa etcher-bin cordless-git tg
+yay -S --noconfirm --answerdiff=None exa etcher-bin cordless-git tg flavours

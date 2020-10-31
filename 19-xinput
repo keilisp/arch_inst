@@ -5,7 +5,7 @@ source ~/arch_inst/00-platform
 echo "Setting xinput..."
 case $PLATFORM in
 "PC")
-	sudo cat <<EOF | sudo tee /etc/X11/xorg.conf.d/99-libinput.conf
+	sudo cat <<EOF | sudo tee /etc/X11/xorg.conf.d/01-libinput.conf
 Section "InputClass"
   Identifier "My config"
   MatchDriver "libinput"
@@ -16,7 +16,7 @@ EOF
 	;;
 
 "LAPTOP")
-	sudo cat <<EOF | sudo tee /etc/X11/xorg.conf.d/99-libinput.conf
+	sudo cat <<EOF | sudo tee /etc/X11/xorg.conf.d/01-libinput.conf
 Section "InputClass"
   Identifier "My trackpoint config"
   MatchDriver "libinput"
